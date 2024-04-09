@@ -6,37 +6,83 @@
 }
 
 .logo {
-  height: 6em;
+  height: 12em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+  transform: rotate(360deg);
 }
 
 .card {
   padding: 2em;
 }
 
-.read-the-docs {
-  color: #888;
+
+.background-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity (0.3) as needed */
+  filter: contrast(0.8);
+}
+.logo-container {
+  position: absolute;
+  top: 20px; /* Adjust top position as needed */
+  right: 20px; /* Adjust right position as needed */
+  z-index: 10; /* Ensure logo appears above other content */
+}
+
+.logo {
+  width: 100px; /* Adjust logo size as needed */
+  height: auto;
+}
+
+.content {
+  position: relative;
+  z-index: 1; /* Ensure content appears above background image */
+  padding: 20px;
+  text-align: center; /* Center-align content */
+  color: white; /* Text color for content */
+}
+
+.woman {
+  position: fixed;
+  bottom: 20px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  width: 500px; /* Adjust image width */
+  height: auto; /* Maintain aspect ratio */
+  z-index: 10; /* Ensure image appears above other content */
+}
+
+/* Styles for popthink image and text overlay */
+.popthink-container {
+  position: fixed;
+  bottom: 350px; /* Adjust as needed */
+  right: 270px; /* Adjust as needed */
+  width: 200px; /* Adjust image width */
+  height: auto; /* Maintain aspect ratio */
+  z-index: 10; /* Ensure image appears above other content */
+}
+
+.popthink {
+  width: 100%;
+  height: auto;
+}
+
+.popthink-text {
+  position: absolute;
+  top: 40%; /* Position text in the middle vertically */
+  left: 50%; /* Position text in the middle horizontally */
+  transform: translate(-50%, -50%);
+  color: black;
+  font-size: 16px; /* Adjust font size as needed */
+  font-weight: bold;
+  text-align: center;
+  z-index: 20; /* Ensure text appears above the image */
 }

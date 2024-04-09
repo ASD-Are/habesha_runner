@@ -1,0 +1,28 @@
+.choose-city-container {
+    display:flex;
+    flex-flow: wrap row;
+    justify-content: space-between; 
+    align-items:center; 
+    /* padding: 40px 0px; */
+    /* margin: 1rem 1rem; */
+  }
+  
+  .city-button button {
+    background-size: cover;
+    background-position:top;
+    width: 400px; 
+    height: 600px; 
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 50px 10px; 
+    padding: 1rem 1rem;
+  }
+  
+  .city-button {
+    text-decoration: none;
+  }
+  

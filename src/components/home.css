@@ -1,0 +1,48 @@
+/* Styles for positioning card1 (top-left corner) */
+.card1 {
+    position: absolute;
+    bottom: 400px; /* Adjust top position as needed */
+    right: 800px;
+  }
+  
+  /* Styles for positioning card2 (lower section) */
+  .card2 {
+    position: absolute;
+    top: 300px; /* Adjust bottom position as needed */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    z-index: 10; /* Ensure card2 appears above other content */
+    width: 200px; /* Set width for card2 */
+  }
+  
+
+  .card2 button {
+    padding: 15px 30px; /* Padding around the button text */
+    font-size: 36px; /* Font size of the button text */
+    cursor: pointer;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 400px; /* Increase button width */
+    height: 80px; /* Increase button height */
+    z-index: 20;
+  }
+  
+  .card1 button{
+    padding: 15px 30px; /* Padding around the button text */
+    font-size: 16px; /* Font size of the button text */
+    cursor: pointer;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 200px; /* Increase button width */
+    height: 50px; /* Increase button height */
+    z-index: 20;
+  }
+  .card1 button:hover,
+  .card2 button:hover {
+    background-color: #2a2c2f;
+  }
+  

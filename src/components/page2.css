@@ -1,0 +1,37 @@
+.kid {
+    position: fixed;
+    bottom: 20px; /* Adjust as needed */
+    left: 20px; /* Adjust as needed */
+    width: 500px; /* Adjust image width */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 10; /* Ensure image appears above other content */
+  }
+
+  /* Styles for popthink image and text overlay */
+.popthink-container-page-2 {
+    position: fixed;
+    bottom: 450px; /* Adjust as needed */
+    left: 20px; /* Adjust as needed */
+    width: 200px; /* Adjust image width */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 10; /* Ensure image appears above other content */
+  }
+  
+  .no {
+    position: fixed;
+    bottom: 400px; /* Adjust as needed */
+    right: 70px; /* Adjust as needed */
+    width: 100px; /* Adjust image width */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 10; /* Ensure image appears above other content */
+  }
+  
+  .stealkid {
+    position: fixed;
+    bottom: 170px; /* Adjust as needed */
+    right: 450px; /* Adjust as needed */
+    width: 1000px; /* Adjust image width */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 2; /* Ensure image appears above other content */
+  }
+  

@@ -14,15 +14,15 @@ function Asmara() {
   const obstacles = [];
   const coins = [];
   const carPool = useRef([]);
-  const MAX_CARS = 1000; // Adjust based on needsased on performance and needs
-  let mixer; // Define outside of the useEffect
-  const clock = new THREE.Clock(); // Define outside of the useEffect
-  let obstacleSpeed = 0.4; // Base speed of obstacles
-  const speedIncrease = 0.03; // How much the speed increases
-  let lastIncreaseTime = 0; // Track when the last speed increase happened
+  const MAX_CARS = 1000; 
+  let mixer; 
+  const clock = new THREE.Clock(); 
+  let obstacleSpeed = 0.4; 
+  const speedIncrease = 0.03; 
+  let lastIncreaseTime = 0; 
 
-  const bridgeSegments = []; // This will store your bridge segments
-  const bridgeSegmentLength = 100; // Adjust based on your model
+  const bridgeSegments = []; 
+  const bridgeSegmentLength = 100; 
 
   const initBridges = () => {
     for (let i = 0; i < 2; i++) {
@@ -50,16 +50,14 @@ function Asmara() {
 
     setInterval(() => {
       obstacleSpeed += speedIncrease;
-    }, 30000); // Adjust the interval as needed for your game's pacing
+    }, 30000); 
 
     const currentTime = clock.getElapsedTime();
-    // Optionally, increase speed based on elapsed time instead of using setInterval
-    if (currentTime - lastIncreaseTime > 30) { // Check if 30 seconds have passed
+    if (currentTime - lastIncreaseTime > 30) { 
       obstacleSpeed += speedIncrease;
       lastIncreaseTime = currentTime;
     }
  
-    // Prevent unnecessary horizontal scrolling
     document.body.style.overflow = 'hidden';
     return () => {
       cleanup();
@@ -70,23 +68,21 @@ function Asmara() {
   const init = () => {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.set(0, 4, 8); // Adjusted camera position for better view
+    camera.position.set(0, 4, 8); 
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
     renderer.physicallyCorrectLight = true;
     
-    // aron
-    // Add an ambient light and a directional light to simulate sunset
-    const ambientLight = new THREE.AmbientLight(0xffcccc, 0.3); // Soft red ambient light
+
+    const ambientLight = new THREE.AmbientLight(0xffcccc, 0.3); 
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xff8c00, 0.5); // Sunset-like directional light
+    const directionalLight = new THREE.DirectionalLight(0xff8c00, 0.5);
     directionalLight.position.set(-1, 1, -1);
     scene.add(directionalLight);
 
-    // Create a large sphere with a basic gradient material as background
     const vertexShader = `
       varying vec3 vWorldPosition;
       void main() {
@@ -107,8 +103,8 @@ function Asmara() {
       }
     `;
     const uniforms = {
-      topColor: { value: new THREE.Color(0x0077ff) }, // Sky color
-      bottomColor: { value: new THREE.Color(0xffffff) }, // Ground color
+      topColor: { value: new THREE.Color(0x0077ff) }, 
+      bottomColor: { value: new THREE.Color(0xffffff) }, 
       offset: { value: 33 },
       exponent: { value: 0.6 }
     };
@@ -121,7 +117,7 @@ function Asmara() {
     });
     const sky = new THREE.Mesh(skyGeo, skyMat);
     scene.add(sky);
-    //aron
+
 
     const light1 = new THREE.DirectionalLight(0xffffff, 2);
     const light2= new THREE.DirectionalLight(0xffffff, 2);
@@ -133,8 +129,7 @@ function Asmara() {
     scene.add(light2);
     scene.add(light3);
 
-    // const ambientLight = new THREE.AmbientLight(0x404040); // soft white light
-    // scene.add(ambientLight);
+
 
     const groundGeometry = new THREE.PlaneGeometry(1000, 1000);
     const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x543b0e });
@@ -161,16 +156,15 @@ function Asmara() {
     document.removeEventListener('keydown', onKeyDown);
     document.removeEventListener('keyup', onKeyUp);
     clearInterval(spawnInterval);
-    document.body.style.overflow = ''; // Reset overflow property
+    document.body.style.overflow = '';
   };
 
-  // let bridgeCreated = false; // Track if the bridge has been created
+
 
 
   const loadPlayerModel = () => {
     const loader = new GLTFLoader();
     loader.load('/run_pose.glb', function (gltf) {
-      // Ensure the player model is only added once
       if (!player) {
         player = gltf.scene;
         scene.add(player);
@@ -178,8 +172,8 @@ function Asmara() {
         player.scale.set(1, 1, 1);
         player.position.set(0, 0, 0);
 
-        // Rotate the player to face towards the camera initially, then adjust as necessary
-        player.rotation.y = Math.PI; // Rotates the player 180 degrees around the Y axis
+        
+        player.rotation.y = Math.PI;
 
         if (gltf.animations && gltf.animations.length) {
           mixer = new THREE.AnimationMixer(player);
@@ -194,23 +188,19 @@ function Asmara() {
 
 
   const spawnEntities = () => {
-    const newPosition = (Math.random() - 0.5) * 5; // Generate a new position
+    const newPosition = (Math.random() - 0.5) * 5; 
     if (Math.random() > 0.5) {
-      // Attempt to spawn an obstacle if the last obstacle position is different
       if (lastObstaclePosition.current === null || Math.abs(lastObstaclePosition.current - newPosition) > 1) {
         spawnObstacle(newPosition);
         lastObstaclePosition.current = newPosition;
       } else {
-        // Spawn a coin instead if the position is too close to the last obstacle
         spawnCoin((Math.random() - 0.5) * 5);
       }
     } else {
-      // Attempt to spawn a coin if the last coin position is different
       if (lastCoinPosition.current === null || Math.abs(lastCoinPosition.current - newPosition) > 1) {
         spawnCoin(newPosition);
         lastCoinPosition.current = newPosition;
       } else {
-        // Spawn an obstacle instead if the position is too close to the last coin
         spawnObstacle((Math.random() - 0.5) * 5);
       }
     }
@@ -218,19 +208,18 @@ function Asmara() {
   
 
   const spawnObstacle = () => {
-    // Check if there's an available car in the pool
     let obstacle = getCarFromPool();
-    if (!obstacle) { // If no car is available from the pool, load a new one if pool is not full
+    if (!obstacle) { 
       if (carPool.current.length < MAX_CARS) {
         const loader = new GLTFLoader();
         loader.load('/2_car.glb', function (gltf) {
           obstacle = gltf.scene;
-          console.log("Obstacle loaded successfully"); // Debugging line
+          console.log("Obstacle loaded successfully"); 
           obstacle.position.set((Math.random() - 0.5) * 5, 0.5, -50);
           obstacle.scale.set(0.3, 0.3, 0.3);
           scene.add(obstacle); 
-          carPool.current.push(obstacle); // Add the new car to the pool
-          obstacles.push(obstacle); // Optionally maintain a separate list for active obstacles
+          carPool.current.push(obstacle); 
+          obstacles.push(obstacle); 
         }, undefined, function (error) {
           console.error("Error loading model:", error);
         });
@@ -238,10 +227,10 @@ function Asmara() {
         console.log('Car pool limit reached, not spawning new cars.');
       }
     } else {
-      // Reuse the car from the pool
-      obstacle.visible = true; // Make the reused car visible
-      obstacle.position.set((Math.random() - 0.5) * 5, 0.5, -50); // Reposition the car
-      obstacles.push(obstacle); // Add to the obstacles array for game logic handling
+    
+      obstacle.visible = true; 
+      obstacle.position.set((Math.random() - 0.5) * 5, 0.5, -50); 
+      obstacles.push(obstacle); 
     }
   };
 
@@ -250,16 +239,15 @@ function Asmara() {
   }
   
   function recycleCar(car) {
-    car.visible = false; // Hide the car, marking it as available for reuse
-    // Reset other necessary properties here, such as position, if needed
+    car.visible = false; 
   }
   
   
   const spawnCoin = () => {
-    const coinGeometry = new THREE.CylinderGeometry(0.26, 0.26, 0.13, 32); // Increased size by 1.3%
+    const coinGeometry = new THREE.CylinderGeometry(0.26, 0.26, 0.13, 32); 
     const coinMaterial = new THREE.MeshPhongMaterial({ color: 0xffff00, emissive: 0xaa9900 });
     const coin = new THREE.Mesh(coinGeometry, coinMaterial);
-    coin.position.set((Math.random() - 0.5) * 5, 0.5, -50); // Narrow down the spawn area
+    coin.position.set((Math.random() - 0.5) * 5, 0.5, -50); 
     coin.rotation.x = Math.PI / 2;
     coins.push(coin);
     scene.add(coin);
@@ -277,28 +265,25 @@ function Asmara() {
   };
   
 
-  let verticalVelocity = 0; // Add this line outside of the useEffect
+  let verticalVelocity = 0; 
 
 
-  const bridgeStartingZPosition = -70; // Example starting position
-  const bridgeResetThreshold = 1; //
   function animate() {
-    if (gameOver) return; // Check if the game is over
+    if (gameOver) return; 
     
 
     requestAnimationFrame(animate);
     bridgeSegments.forEach((bridge, index) => {
-      bridge.position.z += obstacleSpeed; // Move each bridge segment towards the player
+      bridge.position.z += obstacleSpeed; 
 
-      // If the bridge has moved past the player, reset its position to the start
       if (bridge.position.z > camera.position.z) {
         let nextIndex = index - 1;
-        if (nextIndex < 0) nextIndex = bridgeSegments.length - 1; // Wrap to the last segment
+        if (nextIndex < 0) nextIndex = bridgeSegments.length - 1; 
         bridge.position.z = bridgeSegments[nextIndex].position.z - bridgeSegmentLength;
       }
     });
 
-    const delta = clock.getDelta(); // Get the delta time since the last frame
+    const delta = clock.getDelta(); 
   
     if (mixer) mixer.update(delta);
   
@@ -309,21 +294,19 @@ function Asmara() {
     player.position.x += moveDirection;
     player.position.x = Math.max(Math.min(player.position.x, 2.7), -2.7);
   
-    // Adjust the jump mechanics
     if (jump && player.position.y <= 1) {
-      verticalVelocity = 5; // This will give the player an initial upward velocity
-      jump = false; // Prevent additional jumps until landing
+      verticalVelocity = 5; 
+      jump = false; 
     }
   
-    verticalVelocity -= 9.8 * delta; // Simulate gravity
-    player.position.y += verticalVelocity * delta; // Apply vertical velocity to the player's position
+    verticalVelocity -= 9.8 * delta; 
+    player.position.y += verticalVelocity * delta; 
   
     if (player.position.y < 1) {
-      player.position.y = 1; // Reset to ground level
-      verticalVelocity = 0; // Reset vertical velocity
+      player.position.y = 1; 
+      verticalVelocity = 0; 
     }
 
-    // Update obstacles and coins
     obstacles.forEach((obstacle, index) => {
       obstacle.position.z += 0.1;
       if (obstacle.position.z > 10) {
@@ -336,7 +319,7 @@ function Asmara() {
 
     coins.forEach((coin, index) => {
       coin.position.z += 0.1;
-      coin.rotation.z += 0.1; // Make the coins spin for visual effect
+      coin.rotation.z += 0.1; 
       if (coin.position.z > 10) {
         scene.remove(coin);
         coins.splice(index, 1);
@@ -354,6 +337,17 @@ function Asmara() {
   return (
     <div>
       <h2 style={{ position: 'absolute', left: '10px', top: '10px', color: 'white' }}>Score: {score}</h2>
+      <button
+        style={{
+          position: 'absolute',
+          right: '10px',
+          top: '10px',
+          zIndex: 1000, 
+        }}
+      >
+        Back to First Page
+      </button>
+
       {gameOver && (
         <div
           style={{
